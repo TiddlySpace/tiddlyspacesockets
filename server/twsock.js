@@ -9,8 +9,18 @@ var bsClient = bs.Client();
 
 var TUBE = 'socketuri';
 
-io.on("connection", function(connection){
-    console.log('got connection', connection);
+io.sockets.on("connection", function(socket){
+    console.log('got connection', socket);
+    socket.join('*');
+    socket.on('subscribe', function(data) {
+        socket.join(data);
+        if (data !== '*') {
+            socket.leave('*');
+        }
+    });
+    socket.on('unsubscribe', function(data) {
+        socket.leave(data);
+    });
 });
 
 var deleteJob = function(job) {
@@ -24,7 +34,22 @@ var deleteJob = function(job) {
 var resJob = function() {
     bsClient.reserve().onSuccess(function(job) {
         console.log('reserved', job);
-        io.sockets.emit('tiddler', job.data);
+
+        var tiddler = JSON.parse(job.data);
+        ['modifier', 'creator', 'tags'].forEach(function(attribute) {
+            var value = tiddler[attribute];
+            if (Array.isArray(value)) {
+                value.forEach(function(item) {
+                    io.sockets.in(attribute + '/' + item)
+                        .emit('tiddler', tiddler.fields._uri);
+                });
+            } else {
+                io.sockets.in(attribute + '/' + value)
+                        .emit('tiddler', tiddler.fields._uri);
+            }
+        });
+        io.sockets.in('*')
+            .emit('tiddler', tiddler.fields._uri);
         deleteJob(job);
     });
 };
