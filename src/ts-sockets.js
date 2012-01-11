@@ -14,7 +14,7 @@ $.ajaxSetup({
 });
 
 // activity item template
-var itemtemplate = ['<li class="activity-item">',
+var itemtemplate = ['<li class="activity-item next">',
 	'<a href="{{modifier_url}}">',
 		'<img src="{{modifier_siteicon}}" />',
 	'</a>',
@@ -50,9 +50,11 @@ function prettyDate(t) {
 }
 
 function init(status) {
+var activity_queue = [];
 var socket = io.connect('http://tiddlyspace.com:8081');
 var el = $("#realtime")[0] || document.body;
-var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
+//var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
+var container = $(".activity-stream");
 
 var getVerb = function(tiddler) {
 	var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
@@ -101,23 +103,52 @@ var toMustacheData = function(tiddler) {
 	}
 };
 
-socket.on("tiddler", function(e) {
-	var url = e;
-	$.ajax({
-		url: url,
-		dataType: "json",
-		success: function(tiddler) {
-			var data = toMustacheData(tiddler);
-			if(data) {
-				var html = Mustache.to_html(itemtemplate, data);
-				container.prepend(html);
-				$("#realtime .date").each(function(i, el) {
-					$(el).text(prettyDate($(el).attr("data-timestamp")));
-				});
-			}
-		}
-	})
+socket.on("tiddler", function(data) {
+	console.dir(data);
+	var url = data;
+	activity_queue.push(url);
+	updateUI();
 });
+
+var updateUI = function() {
+	console.log("updateUI");
+	if(activity_queue.length > 0) {
+		console.log("queue > than 0");
+		
+		var transitionUI = function() {
+			var jf = jQuery(".first"),
+				jm = jQuery(".middle"),
+				jl = jQuery(".last"),
+				jn = jQuery(".next");
+				
+			jl.removeClass("last").addClass("past");
+			jm.removeClass("middle").addClass("last");
+			jf.removeClass("first").addClass("middle");
+			jn.removeClass("next").addClass("first");
+		}
+		
+		//transitionUI();
+
+		// get value off queue
+		var url = activity_queue.pop();
+		// perform update
+		$.ajax({
+			url: url,
+			dataType: "json",
+			success: function(tiddler) {
+				var data = toMustacheData(tiddler);
+				if(data) {
+					var html = Mustache.to_html(itemtemplate, data);
+					container.prepend(html);
+					$("#realtime .date").each(function(i, el) {
+						$(el).text(prettyDate($(el).attr("data-timestamp")));
+					});
+					transitionUI();
+				}
+			}
+		})
+	}
+};
 }
 
 $.ajax({
