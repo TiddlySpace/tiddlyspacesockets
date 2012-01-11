@@ -32,6 +32,19 @@ body {
 	border-right: none;
 }
 
+li.first {
+	border-right: 1px solid #C3D3DD;
+}
+
+li.middle {
+	border-right: 1px solid #C3D3DD;
+	border-left: 1px solid #fff;
+}
+
+li.last {
+	border-left: 1px solid #fff;
+}
+
 .vertical-stream li {
 	border-bottom: 1px solid #C3D3DD;
 	border-top: 1px solid #fff;
@@ -40,9 +53,9 @@ body {
 .activity-stream li .date {
 	position: absolute;
 	color: #CCC;
-	top: 1.7em;
-	right: 2.5em;
-	font-size: 0.4em;
+	top: 1em;
+	right: 2em;
+	font-size: 0.7em;
 }
 
 .empty {
