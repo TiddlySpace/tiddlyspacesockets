@@ -46,18 +46,21 @@ var socket = io.connect('http://tiddlyspace.com:8081');
 var el = $("#realtime")[0] || document.body;
 var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
 
+var getVerb = function(tiddler) {
+	var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
+	if(isPlugin) {
+		action = "shared a plugin called";
+	} else {
+		action = "is writing about";
+	}
+};
+
 var toMustacheData = function(tiddler) {
 	var modifier_base = getUrl(status, tiddler.modifier);
 	var origin_space = tiddler.bag.split("_");
 	if(origin_space.length > 1) {
 		var origin_base = getUrl(status, origin_space[0]);
-		var action;
-		var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
-		if(isPlugin) {
-			action = "shared a plugin called";
-		} else {
-			action = "is writing about";
-		}
+		var action = getVerb(tiddler);
 		return {
 			action: action,
 			timestamp: tiddler.modified,
