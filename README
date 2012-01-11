@@ -1,0 +1,6 @@
+GETTING UP AND RUNNING
+
+From terminal run:
+
+	make remotes
+	open src/index.html
