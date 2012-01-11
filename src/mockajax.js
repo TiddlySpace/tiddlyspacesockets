@@ -39,6 +39,14 @@ $.ajax = function(options) {
 			tags: ["systemConfig"]
 		}
 		];
-		options.success(tiddlers[parseInt(Math.random() * tiddlers.length, 10)]);
+		var now = new Date();
+		var hrs = now.getHours();
+		hrs = hrs < 10 ? "0" + String(hrs) : hrs;
+		var mins = now.getMinutes();
+		mins = mins < 10 ? "0" + String(mins) : mins; 
+
+		var tiddler = tiddlers[parseInt(Math.random() * tiddlers.length, 10)];
+		tiddler.modified = "20120111" + hrs + mins + "00";
+		options.success(tiddler);
 	}
 };
