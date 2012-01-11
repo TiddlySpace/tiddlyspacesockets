@@ -18,7 +18,7 @@ $(widget).css({
 	position: "relative",
 	height: height,
 	width: "100%"
-}).hide();
+});
 
 // offset body so can always see entire document regardless of whether real time window open
 var padding = parseInt($(document.body).css("padding-bottom"), 10);
