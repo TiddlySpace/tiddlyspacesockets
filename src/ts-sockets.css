@@ -94,6 +94,7 @@ li.first {
 	text-align: center;
 	line-height: 1.5em;
 	padding: 0.5em;
+	overflow: hidden;
 }
 
 .activity-item div p {
