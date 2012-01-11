@@ -37,6 +37,18 @@ body {
 	border-top: 1px solid #fff;
 }
 
+.activity-stream li .date {
+	position: absolute;
+	color: #CCC;
+	top: 1.7em;
+	right: 2.5em;
+	font-size: 0.4em;
+}
+
+.empty {
+	opacity: 0.4;
+}
+
 .activity-item {
 	position: relative;
 	height: 8em;
