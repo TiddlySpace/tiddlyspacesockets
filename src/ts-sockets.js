@@ -110,23 +110,31 @@ socket.on("tiddler", function(data) {
 	updateUI();
 });
 
+var addTiddlerToUI = function(tiddler) {
+	var transitionUI = function() {
+		var jf = jQuery(".first"),
+			jm = jQuery(".middle"),
+			jl = jQuery(".last"),
+			jn = jQuery(".next");
+			
+		jl.removeClass("last").addClass("past");
+		jm.removeClass("middle").addClass("last");
+		jf.removeClass("first").addClass("middle");
+		jn.removeClass("next").addClass("first");
+	}
+	var data = toMustacheData(tiddler);
+	if(data) {
+		var html = Mustache.to_html(itemtemplate, data);
+		container.prepend(html);
+		$("#realtime .date").each(function(i, el) {
+			$(el).text(prettyDate($(el).attr("data-timestamp")));
+		});
+		transitionUI();
+	}
+};
+
 var updateUI = function() {
 	if(activity_queue.length > 0) {
-
-		var transitionUI = function() {
-			var jf = jQuery(".first"),
-				jm = jQuery(".middle"),
-				jl = jQuery(".last"),
-				jn = jQuery(".next");
-				
-			jl.removeClass("last").addClass("past");
-			jm.removeClass("middle").addClass("last");
-			jf.removeClass("first").addClass("middle");
-			jn.removeClass("next").addClass("first");
-		}
-		
-		//transitionUI();
-
 		// get value off queue
 		var url = activity_queue.pop();
 		// perform update
@@ -134,19 +142,22 @@ var updateUI = function() {
 			url: url,
 			dataType: "json",
 			success: function(tiddler) {
-				var data = toMustacheData(tiddler);
-				if(data) {
-					var html = Mustache.to_html(itemtemplate, data);
-					container.prepend(html);
-					$("#realtime .date").each(function(i, el) {
-						$(el).text(prettyDate($(el).attr("data-timestamp")));
-					});
-					transitionUI();
-				}
+				addTiddlerToUI(tiddler);
 			}
 		})
 	}
 };
+
+$.ajax({
+	dataType: "json",
+	url: "/search?q=_limit:20",
+	success: function(tiddlers) {
+		for(var i = 0; i < 3 && i < tiddlers.length; i++) {
+			addTiddlerToUI(tiddlers[i]);
+		}
+	}
+})
+
 }
 
 $.ajax({

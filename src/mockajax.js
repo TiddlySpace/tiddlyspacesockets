@@ -52,6 +52,9 @@ $.ajax = function(options) {
 
 		var tiddler = tiddlers[parseInt(Math.random() * tiddlers.length, 10)];
 		tiddler.modified = "20120111" + hrs + mins + "00";
+		if(options.url.indexOf("/search") > -1) {
+			return options.success([tiddler, tiddler, tiddler, tiddler]);
+		}
 		options.success(tiddler);
 	}
 };
