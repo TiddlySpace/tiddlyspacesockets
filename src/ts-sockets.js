@@ -59,7 +59,7 @@ var getVerb = function(tiddler) {
 	var isImage = tiddler.type && tiddler.type.indexOf("image/") === 0;
 	var isCode = tiddler.type && tiddler.type === "text/javascript";
 	var isBookmark = !!tiddler.fields.url;
-	var isPlumbing = PLUMBING.indexOf(tiddler.title) > -1;
+	var isPlumbing = PLUMBING.indexOf(tiddler.title) > -1 || tiddler.title.match(/setupFlag$/)
 	var ignoreType = tiddler.type &&
 		(["text/html", "text/css"].indexOf(tiddler.type) > -1 || tiddler.type.indexOf("application/") === 0);
 	if(isPlugin) {
