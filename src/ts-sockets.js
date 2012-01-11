@@ -1,6 +1,6 @@
 var PLUMBING = ["Footer", "Header", "AdvancedOptions", "ColorPalette", "DefaultTiddlers","EditTemplate",
 "FollowTiddlersBlackList", "FollowTiddlersHeading", "FollowTiddlersTemplate", "FollowersTemplate", "FollowingTemplate", "GettingStarted", "ImportTiddlers", "MainMenu", "MarkupPostBody", "MarkupPostHead", "MarkupPreBody", "MarkupPreHead", "OptionsPanel", "PageTemplate", "PluginManager", "ScanTemplate", "SearchTemplate", "SideBarOptions", "SideBarTabs",
-"SiteSubtitle", "SiteTitle",
+"SiteSubtitle", "SiteTitle", "SiteIcon",
 "SiteUrl", "StyleSheet", "StyleSheetColors", "StyleSheetDiffFormatter", "StyleSheetFollowing", "StyleSheetImageMacro", 
 "StyleSheetLayout", "StyleSheetLocale","StyleSheetPrint","StyleSheetSearch","StyleSheetTiddlySpaceBackstage",
 "SystemSettings","TabAll","TabMore","TabMoreMissing","TabMoreOrphans","TabMoreShadowed",
