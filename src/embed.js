@@ -34,4 +34,5 @@ $('<button>real time</button>').click(function(ev) {
 	"background-image": "url(http://following.tiddlyspace.com/SiteIcon)"
 }).appendTo(container);
 
+$(document.body).css({ "padding-bottom": height });
 })(jQuery);
