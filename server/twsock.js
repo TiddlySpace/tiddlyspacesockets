@@ -3,14 +3,13 @@
  * from npm.
  */
 
-var ws = require('websocket-server'),
+var io = require('socket.io').listen(8081),
     bs = require('nodestalker');
-var server = ws.createServer(),
-    bsClient = bs.Client();
+var bsClient = bs.Client();
 
 var TUBE = 'socketuri';
 
-server.on("connection", function(connection){
+io.on("connection", function(connection){
     console.log('got connection', connection);
 });
 
@@ -25,7 +24,7 @@ var deleteJob = function(job) {
 var resJob = function() {
     bsClient.reserve().onSuccess(function(job) {
         console.log('reserved', job);
-        server.broadcast(job.data);
+        io.sockets.emit('tiddler', job.data);
         deleteJob(job);
     });
 };
@@ -36,5 +35,3 @@ bsClient.watch(TUBE).onSuccess(function(data) {
         resJob();
     });
 });
-
-server.listen(8081);

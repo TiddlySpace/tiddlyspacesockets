@@ -5,11 +5,12 @@
     <body>
         <h1>Hi</h1>
     </body>
+    <script src="http://localhost:8081/socket.io/socket.io.js"></script>
     <script>
-var ws = new WebSocket('ws://localhost:8080/');
+var socket = io.connect('http://localhost:8081');
 
-ws.onmessage = function(e) {
-    console.log("server says:" + e.data);
-};
+socket.on('tiddler', function(e) {
+    console.log("server says:" + e);
+});
     </script>
 </html>
