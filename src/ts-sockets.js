@@ -1,3 +1,11 @@
+var PLUMBING = ["Footer", "Header", "AdvancedOptions", "ColorPalette", "DefaultTiddlers","EditTemplate",
+"FollowTiddlersBlackList", "FollowTiddlersHeading", "FollowTiddlersTemplate", "FollowersTemplate", "FollowingTemplate", "GettingStarted", "ImportTiddlers", "MainMenu", "MarkupPostBody", "MarkupPostHead", "MarkupPreBody", "MarkupPreHead", "OptionsPanel", "PageTemplate", "PluginManager", "ScanTemplate", "SearchTemplate", "SideBarOptions", "SideBarTabs",
+"SiteSubtitle", "SiteTitle",
+"SiteUrl", "StyleSheet", "StyleSheetColors", "StyleSheetDiffFormatter", "StyleSheetFollowing", "StyleSheetImageMacro", 
+"StyleSheetLayout", "StyleSheetLocale","StyleSheetPrint","StyleSheetSearch","StyleSheetTiddlySpaceBackstage",
+"SystemSettings","TabAll","TabMore","TabMoreMissing","TabMoreOrphans","TabMoreShadowed",
+"TabTags","TabTimeline","ToolbarCommands","ViewTemplate","WindowTitle"];
+
 // override control view
 $.ajaxSetup({
 	beforeSend: function(xhr) {
@@ -48,10 +56,13 @@ var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
 
 var getVerb = function(tiddler) {
 	var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
+	var isPlumbing = PLUMBING.indexOf(tiddler.title) > -1;
 	if(isPlugin) {
 		action = "shared a plugin called";
+	} else if(isPlumbing) {
+		return false;
 	} else {
-		action = "is writing about";
+		return "is writing about";
 	}
 };
 
@@ -61,6 +72,9 @@ var toMustacheData = function(tiddler) {
 	if(origin_space.length > 1) {
 		var origin_base = getUrl(status, origin_space[0]);
 		var action = getVerb(tiddler);
+		if(!action) {
+			return false;
+		}
 		return {
 			action: action,
 			timestamp: tiddler.modified,
