@@ -1,3 +1,10 @@
+// override control view
+$.ajaxSetup({
+	beforeSend: function(xhr) {
+		xhr.setRequestHeader("X-ControlView", "false");
+	}
+});
+
 // activity item template
 var itemtemplate = ['<li class="activity-item">',
 	'<a href="{{modifier_url}}">',
@@ -67,7 +74,7 @@ var toMustacheData = function(tiddler) {
 };
 
 socket.on("tiddler", function(e) {
-	var url = e.data;
+	var url = e;
 	$.ajax({
 		url: url,
 		dataType: "json",
