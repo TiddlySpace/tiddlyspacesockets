@@ -30,6 +30,7 @@ $('<button>real time</button>').click(function(ev) {
 	bottom: 0,
 	border: "none",
 	"background-repeat": "no-repeat",
+	cursor: "pointer",
 	"background-image": "url(http://following.tiddlyspace.com/SiteIcon)"
 }).appendTo(container);
 
