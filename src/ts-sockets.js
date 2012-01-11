@@ -105,17 +105,14 @@ var toMustacheData = function(tiddler) {
 
 socket.emit("subscribe", "*");
 socket.on("tiddler", function(data) {
-	console.dir(data);
 	var url = data;
 	activity_queue.push(url);
 	updateUI();
 });
 
 var updateUI = function() {
-	console.log("updateUI");
 	if(activity_queue.length > 0) {
-		console.log("queue > than 0");
-		
+
 		var transitionUI = function() {
 			var jf = jQuery(".first"),
 				jm = jQuery(".middle"),
