@@ -103,6 +103,7 @@ var toMustacheData = function(tiddler) {
 	}
 };
 
+socket.emit("subscribe", "*");
 socket.on("tiddler", function(data) {
 	console.dir(data);
 	var url = data;
