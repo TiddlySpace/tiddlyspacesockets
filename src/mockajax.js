@@ -10,6 +10,7 @@ $.ajax = function(options) {
 	} else {
 		var tiddler = {
 			title: "disney music",
+			bag: "disney_public",
 			modifier: "jon"
 		};
 		options.success(tiddler);
