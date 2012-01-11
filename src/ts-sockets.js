@@ -5,7 +5,7 @@ var itemtemplate = ['<li class="activity-item">',
 	'</a>',
 	'<div>',
 		'<p>',
-			'<a href="{{modifier_url}}">{{modifier}}</a> is {{action}} ',
+			'<a href="{{modifier_url}}">{{modifier}}</a> {{action}} ',
 			'<a class="tiddler-title" href="{{tiddler_url}}">{{tiddler_title}}</a>',
 		'</p>',
 	'</div>',
@@ -30,8 +30,15 @@ var toMustacheData = function(tiddler) {
 	var origin_space = tiddler.bag.split("_");
 	if(origin_space.length > 1) {
 		var origin_base = getUrl(status, origin_space[0]);
+		var action;
+		var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
+		if(isPlugin) {
+			action = "shared a plugin called";
+		} else {
+			action = "is writing about";
+		}
 		return {
-			action: "writing about",
+			action: action,
 			modifier: tiddler.modifier,
 			modifier_url: modifier_base,
 			modifier_siteicon: modifier_base + "SiteIcon",

@@ -11,22 +11,31 @@ $.ajax = function(options) {
 		var tiddlers = [{
 			title: "disney music",
 			bag: "disney_public",
-			modifier: "jon"
+			modifier: "jon",
+			tags: []
 		},
 		{
 			title: "meatloaf",
 			bag: "ben_public",
-			modifier: "bengillies"
+			modifier: "bengillies",
+			tags: []
 		},
 		{
 			title: "How to lose a laptop in 3 simple steps",
 			bag: "colm_public",
-			modifier: "colmbritton"
+			modifier: "colmbritton",
+			tags: []
 		},
 		{
 			title: "Plugin",
 			bag: "tiddlyspace",
 			modifier: "core",
+			tags: ["systemConfig"]
+		},
+		{
+			title: "PMario's Plugin",
+			bag: "pmario_plugins",
+			modifier: "pmario",
 			tags: ["systemConfig"]
 		}
 		];
