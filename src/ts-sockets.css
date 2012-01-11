@@ -53,9 +53,9 @@ li.last {
 .activity-stream li .date {
 	position: absolute;
 	color: #CCC;
-	top: 1.7em;
-	right: 2.5em;
-	font-size: 0.4em;
+	top: 1em;
+	right: 2em;
+	font-size: 0.7em;
 }
 
 .empty {
