@@ -12,31 +12,36 @@ $.ajax = function(options) {
 			title: "disney music",
 			bag: "disney_public",
 			modifier: "jon",
-			tags: []
+			tags: [],
+			fields: {}
 		},
 		{
 			title: "meatloaf",
 			bag: "ben_public",
 			modifier: "bengillies",
-			tags: []
+			tags: [],
+			fields: {}
 		},
 		{
 			title: "How to lose a laptop in 3 simple steps",
 			bag: "colm_public",
 			modifier: "colmbritton",
-			tags: []
+			tags: [],
+			fields: {}
 		},
 		{
 			title: "Plugin",
 			bag: "tiddlyspace",
 			modifier: "core",
-			tags: ["systemConfig"]
+			tags: ["systemConfig"],
+			fields: {}
 		},
 		{
 			title: "PMario's Plugin",
 			bag: "pmario_plugins",
 			modifier: "pmario",
-			tags: ["systemConfig"]
+			tags: ["systemConfig"],
+			fields: {}
 		}
 		];
 		var now = new Date();
