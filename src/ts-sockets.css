@@ -1,0 +1,28 @@
+body {
+	background: #F0F4F8;
+	min-height: 100%;
+}
+
+.activity-stream {
+	list-style: none;
+}
+
+.activity-stream li {
+	padding: 1em;
+}
+
+.horizontal-stream li {
+	border-right: 1px solid #DCE7F1;
+	border-left: 1px solid #F8F8F8;
+}
+
+.vertical-stream li {
+	border-bottom: 1px solid #DCE7F1;
+	border-top: 1px solid #F8F8F8;
+}
+
+.activity-stream img {
+	border-radius: 3px;
+	height: 100px;
+	width: 100px;
+}
