@@ -8,6 +8,7 @@ var itemtemplate = ['<li class="activity-item">',
 			'<a href="{{modifier_url}}">{{modifier}}</a> {{action}} ',
 			'<a class="tiddler-title" href="{{tiddler_url}}">{{tiddler_title}}</a>',
 		'</p>',
+		'<p class="date" data-timestamp="{{timestamp}}">{{friendly_date}}</p>',
 	'</div>',
 '</li>'].join("");
 
@@ -18,6 +19,19 @@ function getUrl(status, space) {
 		url += ":" + host.port;
 	}
 	return url + "/";
+}
+
+function prettyDate(t) {
+	var date = new Date(Date.UTC(
+		parseInt(t.substr(0, 4), 10),
+		parseInt(t.substr(4, 2), 10) - 1,
+		parseInt(t.substr(6, 2), 10),
+		parseInt(t.substr(8, 2), 10),
+		parseInt(t.substr(10, 2), 10),
+		parseInt(t.substr(12, 2) || "0", 10),
+		parseInt(t.substr(14, 3) || "0", 10)
+	));
+	return simpleDate(date);
 }
 
 function init(status) {
@@ -39,6 +53,8 @@ var toMustacheData = function(tiddler) {
 		}
 		return {
 			action: action,
+			timestamp: tiddler.modified,
+			friendly_date: prettyDate(tiddler.modified),
 			modifier: tiddler.modifier,
 			modifier_url: modifier_base,
 			modifier_siteicon: modifier_base + "SiteIcon",
@@ -60,6 +76,9 @@ ws.onmessage = function(e) {
 			if(data) {
 				var html = Mustache.to_html(itemtemplate, data);
 				container.prepend(html);
+				$("#realtime .date").each(function(i, el) {
+					$(el).text(prettyDate($(el).attr("data-timestamp")));
+				});
 			}
 		}
 	})
