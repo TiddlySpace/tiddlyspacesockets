@@ -1,3 +1,4 @@
+#!/usr/local/bin/node
 /* 
  * Needs websocket-server and (eventually) nodestalker, available 
  * from npm.
