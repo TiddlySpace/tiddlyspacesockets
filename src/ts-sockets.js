@@ -152,7 +152,7 @@ function init(status) {
 		dataType: "json",
 		url: "/search?q=_limit:20",
 		success: function(tiddlers) {
-			for(var i = 0; i < 3 && i < tiddlers.length; i++) {
+			for(var i = 0; i < tiddlers.length; i++) {
 				addTiddlerToUI(tiddlers[i]);
 			}
 		}
