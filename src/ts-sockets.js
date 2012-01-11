@@ -11,6 +11,7 @@ var itemtemplate = ['<li class="activity-item">',
 	'</div>',
 '</li>'].join("");
 
+function init(status) {
 var ws = new WebSocket('ws://10.10.1.142:8080/');
 var el = $("#realtime")[0] || document.body;
 var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
@@ -37,3 +38,12 @@ ws.onmessage = function(e) {
 		}
 	})
 };
+}
+
+$.ajax({
+	url: "/status",
+	dataType: "json",
+	success: function(data) {
+		init(data);
+	}
+});
