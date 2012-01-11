@@ -1,5 +1,5 @@
 // activity item template
-var itemtemplate = ['<div class="activity-item">',
+var itemtemplate = ['<li class="activity-item">',
 	'<a href="{{modifier_url}}">',
 		'<img src="{{modifier_siteicon}}" />',
 	'</a>',
@@ -9,9 +9,9 @@ var itemtemplate = ['<div class="activity-item">',
 			'<a class="tiddler-title" href="{{tiddler_url}}">{{tiddler_title}}</a>',
 		'</p>',
 	'</div>',
-'</div>'].join("");
+'</li>'].join("");
 
-var ws = new WebSocket('ws://localhost:8080/');
+var ws = new WebSocket('ws://10.10.1.142:8080/');
 var el = $("#realtime")[0] || document.body;
 var container = $("<ul />").appendTo(el);
 ws.onmessage = function(e) {
@@ -21,7 +21,7 @@ ws.onmessage = function(e) {
 		dataType: "json",
 		success: function(tiddler) {
 			var html = Mustache.to_html(itemtemplate, tiddler);
-			$("<li />").html(html).prependTo(container);
+			container.prepend(html);
 		}
 	})
 };
