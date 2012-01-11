@@ -56,10 +56,21 @@ var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
 
 var getVerb = function(tiddler) {
 	var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
+	var isImage = tiddler.type && tiddler.type.indexOf("image/") === 0;
+	var isCode = tiddler.type && tiddler.type === "text/javascript";
+	var isBookmark = !!tiddler.fields.url;
 	var isPlumbing = PLUMBING.indexOf(tiddler.title) > -1;
+	var ignoreType = tiddler.type &&
+		(["text/html", "text/css"].indexOf(tiddler.type) > -1 || tiddler.type.indexOf("application/") === 0);
 	if(isPlugin) {
 		action = "shared a plugin called";
-	} else if(isPlumbing) {
+	} else if(isCode) {
+		return "shared a javascript file called ";
+	} else if(isImage) {
+		return "shared an image ";
+	} else if(isBookmark) {
+		return "shared a link - ";
+	} else if(isPlumbing || ignoreType) {
 		return false;
 	} else {
 		return "is writing about";
