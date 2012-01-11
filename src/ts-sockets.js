@@ -1,5 +1,5 @@
 // activity item template
-var itemtemplate = ['<li class="activity-item">',
+var itemtemplate = ['<li class="activity-item next">',
 	'<a href="{{modifier_url}}">',
 		'<img src="{{modifier_siteicon}}" />',
 	'</a>',
@@ -21,9 +21,11 @@ function getUrl(status, space) {
 }
 
 function init(status) {
+var activity_queue = [];
 var socket = io.connect('http://tiddlyspace.com:8081');
 var el = $("#realtime")[0] || document.body;
-var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
+//var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
+var container = $(".activity-stream");
 
 var toMustacheData = function(tiddler) {
 	var modifier_base = getUrl(status, tiddler.modifier);
@@ -50,20 +52,46 @@ var toMustacheData = function(tiddler) {
 	}
 };
 
-socket.on("tiddler", function(e) {
-	var url = e.data;
-	$.ajax({
-		url: url,
-		dataType: "json",
-		success: function(tiddler) {
-			var data = toMustacheData(tiddler);
-			if(data) {
-				var html = Mustache.to_html(itemtemplate, data);
-				container.prepend(html);
-			}
-		}
-	})
+socket.on("tiddler", function(data) {
+	console.dir(data);
+	var url = data;
+	activity_queue.push(url);
+	updateUI();
 });
+
+var updateUI = function() {
+	console.log("updateUI");
+	if(activity_queue.length > 0) {
+		console.log("queue > than 0");
+		var transitionUI = function() {
+			var jf = jQuery(".first"),
+				jm = jQuery(".middle"),
+				jl = jQuery(".last"),
+				jn = jQuery(".next");
+
+			jn.removeClass("next").addClass("first");
+			jf.removeClass("first").addClass("middle");
+			jm.removeClass("middle").addClass("last");
+			jl.removeClass("last").addClass("past");
+		}
+		transitionUI();
+	
+		// get value off queue
+		var url = activity_queue.pop();
+		// perform update
+		$.ajax({
+			url: url,
+			dataType: "json",
+			success: function(tiddler) {
+				var data = toMustacheData(tiddler);
+				if(data) {
+					var html = Mustache.to_html(itemtemplate, data);
+					container.prepend(html);
+				}
+			}
+		})
+	}
+};
 }
 
 $.ajax({
