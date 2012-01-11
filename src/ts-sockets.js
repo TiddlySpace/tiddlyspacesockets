@@ -164,6 +164,8 @@ $.ajax({
 	url: "/status",
 	dataType: "json",
 	success: function(data) {
-		init(data);
+		if(typeof(io) !== "undefined") {
+			init(data);
+		}
 	}
 });
