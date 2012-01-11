@@ -114,19 +114,21 @@ var updateUI = function() {
 	console.log("updateUI");
 	if(activity_queue.length > 0) {
 		console.log("queue > than 0");
+		
 		var transitionUI = function() {
 			var jf = jQuery(".first"),
 				jm = jQuery(".middle"),
 				jl = jQuery(".last"),
 				jn = jQuery(".next");
-
-			jn.removeClass("next").addClass("first");
-			jf.removeClass("first").addClass("middle");
-			jm.removeClass("middle").addClass("last");
+				
 			jl.removeClass("last").addClass("past");
+			jm.removeClass("middle").addClass("last");
+			jf.removeClass("first").addClass("middle");
+			jn.removeClass("next").addClass("first");
 		}
-		transitionUI();
-	
+		
+		//transitionUI();
+
 		// get value off queue
 		var url = activity_queue.pop();
 		// perform update
@@ -141,6 +143,7 @@ var updateUI = function() {
 					$("#realtime .date").each(function(i, el) {
 						$(el).text(prettyDate($(el).attr("data-timestamp")));
 					});
+					transitionUI();
 				}
 			}
 		})
