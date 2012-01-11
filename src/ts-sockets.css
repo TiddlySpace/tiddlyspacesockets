@@ -32,7 +32,7 @@ body {
 	border-right: none;
 }
 
-li.first {
+li.last {
 	border-right: 1px solid #C3D3DD;
 }
 
@@ -41,7 +41,7 @@ li.middle {
 	border-left: 1px solid #fff;
 }
 
-li.last {
+li.first {
 	border-left: 1px solid #fff;
 }
 
@@ -126,19 +126,19 @@ li.last {
 	-webkit-transform: translate(100%, 0pt);
 }
 
-.transforms .last {
+.transforms .first {
 	-o-transform: translate(200%, 0pt);
 	-moz-transform: translate(200%, 0pt);
 	-webkit-transform: translate(200%, 0pt);
 }
 
-.transforms .next {
+.transforms .past {
 	-o-transform: translate(-150%, 0pt);
 	-moz-transform: translate(-150%, 0pt);
 	-webkit-transform: translate(-150%, 0pt);
 }
 
-.transforms .past {
+.transforms .next {
 	-o-transform: translate(300%, 0pt);
 	-moz-transform: translate(300%, 0pt);
 	-webkit-transform: translate(300%, 0pt);
