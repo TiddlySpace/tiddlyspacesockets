@@ -56,6 +56,15 @@ li.last {
 	top: 1em;
 	right: 2em;
 	font-size: 0.7em;
+	-o-transition: all 0.3s linear;
+	-ms-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+}
+
+.activity-stream li:hover .date {
+	color: #8C9DA7;
 }
 
 .empty {
