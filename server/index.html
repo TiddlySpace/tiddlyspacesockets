@@ -5,9 +5,9 @@
     <body>
         <h1>Hi</h1>
     </body>
-    <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+    <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
     <script>
-var socket = io.connect('http://localhost:8081');
+var socket = io.connect('http://tiddlyspace.com:8081');
 
 socket.on('tiddler', function(e) {
     console.log("server says:" + e);
