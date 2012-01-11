@@ -9,6 +9,10 @@
     <script>
 var socket = io.connect('http://tiddlyspace.com:8081');
 
+socket.emit('subscribe', 'tags/monkey');
+socket.emit('subscribe', 'modifier/cdent');
+socket.emit('subscribe', 'creator/cdent');
+
 socket.on('tiddler', function(e) {
     console.log("server says:" + e);
 });
