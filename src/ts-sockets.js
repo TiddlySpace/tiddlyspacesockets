@@ -49,10 +49,10 @@ function prettyDate(t) {
 	return simpleDate(date);
 }
 
+var el = $("#realtime")[0] || document.body;
 function init(status) {
 	var activity_queue = [];
 	var socket = io.connect('http://tiddlyspace.com:8081');
-	var el = $("#realtime")[0] || document.body;
 	//var container = $("<ul />", {class: "activity-stream"}).appendTo(el);
 	var container = $(".activity-stream");
 
@@ -166,6 +166,8 @@ $.ajax({
 	success: function(data) {
 		if(typeof(io) !== "undefined") {
 			init(data);
+		} else {
+			$(el).text("Real-time tiddlers feed currently down for maintenance.")
 		}
 	}
 });
