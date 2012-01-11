@@ -3,19 +3,38 @@
  * from npm.
  */
 
-var ws = require('websocket-server');
-var server = ws.createServer();
+var ws = require('websocket-server'),
+    bs = require('nodestalker');
+var server = ws.createServer(),
+    bsClient = bs.Client();
+
+var TUBE = 'socketuri';
 
 server.on("connection", function(connection){
     console.log('got connection', connection);
 });
 
-var counter = 0;
+var deleteJob = function(job) {
+    bsClient.deleteJob(job.id).onSuccess(function(del_msg) {
+        console.log('deleted', job);
+        console.log('message', del_msg);
+        resJob();
+    });
+};
 
-setInterval(function() {
-    console.log("wanna send broadcast!");
-    counter++;
-    server.broadcast("oh you know" + counter);
-}, 1000);
+var resJob = function() {
+    bsClient.reserve().onSuccess(function(job) {
+        console.log('reserved', job);
+        server.broadcast(job.data);
+        deleteJob(job);
+    });
+};
 
-server.listen(8080);
+bsClient.watch(TUBE).onSuccess(function(data) {
+    bsClient.ignore('default').onSuccess(function(data) {;
+        console.log('ignoring');
+        resJob();
+    });
+});
+
+server.listen(8081);
