@@ -45,6 +45,10 @@ body {
 	font-size: 0.4em;
 }
 
+.empty {
+	opacity: 0.4;
+}
+
 .activity-item {
 	position: relative;
 	height: 8em;
