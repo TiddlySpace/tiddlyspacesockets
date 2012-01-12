@@ -167,7 +167,7 @@ $.ajax({
 		if(typeof(io) !== "undefined") {
 			init(data);
 		} else {
-			$(el).text("Real-time tiddlers feed currently down for maintenance.")
+			$(el).text("Real-time tiddlers feed currently down for maintenance.");
 		}
 	}
 });
