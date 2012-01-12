@@ -7,7 +7,10 @@
 var io = require('socket.io').listen(8081),
     bs = require('nodestalker'),
     bsClient = bs.Client(),
+    SysLogger = require('ain2'),
     TUBE = 'socketuri';
+
+var console = new SysLogger();
 
 io.set('log level', 1); 
 
