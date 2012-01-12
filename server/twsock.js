@@ -4,12 +4,12 @@
  * from npm.
  */
 
-var beanstalkRetries = 0;
-
 var io = require('socket.io').listen(8081),
     bs = require('nodestalker'),
     bsClient = bs.Client(),
     TUBE = 'socketuri';
+
+io.set('log level', 1); 
 
 var addListeners = function(c) {
     c.addListener('error', function(err) {
