@@ -1,6 +1,6 @@
 
 import beanstalkc
-import logging 
+import logging
 
 from tiddlywebplugins.utils import get_store
 from tiddlywebplugins.dispatcher.listener import Listener as BaseListener
@@ -14,8 +14,8 @@ from tiddlyweb.serializer import Serializer
 
 OUTGOING_TUBE = 'socketuri'
 
-from tiddlywebplugins.dispatcher.listener import (
-    DEFAULT_BEANSTALK_HOST, DEFAULT_BEANSTALK_PORT)
+from tiddlywebplugins.dispatcher import (make_beanstalkc,
+        DEFAULT_BEANSTALK_HOST, DEFAULT_BEANSTALK_PORT)
 
 
 class Listener(BaseListener):
@@ -28,10 +28,9 @@ class Listener(BaseListener):
         self.serializer = Serializer('json', {'tiddlyweb.config': config})
         beanstalk_host = config.get('beanstalk.host', DEFAULT_BEANSTALK_HOST)
         beanstalk_port = config.get('beanstalk.port', DEFAULT_BEANSTALK_PORT)
-        self.beanstalkc = beanstalkc.Connection(host=beanstalk_host,
-                port=beanstalk_port)
+        self.beanstalkc = make_beanstalkc(beanstalk_host, beanstalk_port)
         BaseListener.run(self)
-    
+
     def _act(self, job):
         info = self._unpack(job)
         if not self.STORE:
@@ -57,8 +56,17 @@ class Listener(BaseListener):
         tiddler.text = ''
         tiddler.fields['_uri'] = uri
         self.serializer.object = tiddler
-        self.beanstalkc.use(OUTGOING_TUBE)
-        self.beanstalkc.put(self.serializer.to_string())
+        try:
+            self.beanstalkc.use(OUTGOING_TUBE)
+            self.beanstalkc.put(self.serializer.to_string())
+        except beanstalkc.SocketError, exc:
+            logging.error('dispatch to twsock failed, retry: %s', exc)
+            beanstalk_host = self.config.get('beanstalk.host',
+                    DEFAULT_BEANSTALK_HOST)
+            beanstalk_port = self.config.get('beanstalk.port',
+                    DEFAULT_BEANSTALK_PORT)
+            self.beanstalkc = make_beanstalkc(beanstalk_host, beanstalk_port)
+            self._act(job)
 
     def _make_uri(self, tiddler):
         config = self._kwargs['config']
