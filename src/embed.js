@@ -10,7 +10,7 @@ var container = $('<div id="realtime-widget" />').css({
 	"border-top": "solid 2px black"
 }).appendTo(document.body)[0];
 
-var height = 130;
+var height = 100;
 
 var widget = $('<iframe id="realtime-widget" src="http://sockets.tiddlyspace.com/index.html" />').appendTo(container);
 $(widget).css({
@@ -23,10 +23,12 @@ $(widget).css({
 $('<button>real time</button>').click(function(ev) {
 	$(widget).toggle();
 }).css({
-	position: "absolute", right: 0, bottom: "0px",
+	position: "absolute", right: "10px", bottom: "0px",
 	"background": "none",
+	"width": 33,
+	"height": 19,
 	"z-index": 2,
-	"text-indent": -99,
+	"text-indent": 999,
 	bottom: 0,
 	border: "none",
 	"background-repeat": "no-repeat",
@@ -34,5 +36,5 @@ $('<button>real time</button>').click(function(ev) {
 	"background-image": "url(http://following.tiddlyspace.com/SiteIcon)"
 }).appendTo(container);
 
-$(document.body).css({ "padding-bottom": height });
+$(document.body).css({ "padding-bottom": height + 8 });
 })(jQuery);
