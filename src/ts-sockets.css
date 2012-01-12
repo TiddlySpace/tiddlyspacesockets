@@ -3,6 +3,7 @@ body {
 	min-height: 100%;
 	font-family: "Helvetica Neue",helvetica,arial,sans-serif;
 	line-height: 1.4;
+	font-size: 80%;
 }
 
 .activity-stream {
@@ -73,21 +74,20 @@ li.first {
 
 .activity-item {
 	position: relative;
-	height: 8em;
+	height: 4em;
 }
 
 .activity-item img {
 	border-radius: 4px;
-	height: 5.5em;
-	width: 5.5em;
+	height: 3em;
+	width: 3em;
 	position: absolute;
 	top: 1.25em; left: 1.25em;
 }
 
 .activity-item div {
 	background: #DCE7F1;
-	margin-left: 7em;
-	margin-top: 1em;
+	margin-left: 4em;
 	height: 3em;
 	border-radius: 6px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
