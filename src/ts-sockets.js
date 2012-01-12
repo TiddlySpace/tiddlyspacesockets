@@ -64,7 +64,9 @@ function init(status) {
 		var isPlumbing = PLUMBING.indexOf(tiddler.title) > -1 || tiddler.title.match(/setupFlag$/)
 		var ignoreType = tiddler.type &&
 			(["text/html", "text/css"].indexOf(tiddler.type) > -1 || tiddler.type.indexOf("application/") === 0);
-		if(isPlugin) {
+		if(isPlumbing || ignoreType) {
+			return false;
+		} else if(isPlugin) {
 			action = "shared a plugin called";
 		} else if(isCode) {
 			return "shared a javascript file called ";
@@ -72,8 +74,6 @@ function init(status) {
 			return "shared an image ";
 		} else if(isBookmark) {
 			return "shared a link - ";
-		} else if(isPlumbing || ignoreType) {
-			return false;
 		} else {
 			return "is writing about";
 		}
