@@ -150,7 +150,7 @@ function init(status) {
 
 	$.ajax({
 		dataType: "json",
-		url: "/search?q=_limit:20",
+		url: "/search?q=_limit:20;sort=modified",
 		success: function(tiddlers) {
 			for(var i = 0; i < tiddlers.length; i++) {
 				addTiddlerToUI(tiddlers[i]);
