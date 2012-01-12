@@ -1,0 +1,55 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:		twsock
+# Should-Start:		$local_fs
+# Should-Stop:		$local_fs
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	twsock - Real time socket.io of tiddlers
+# Description:		twsock - Real time socket.io of tiddlers
+### END INIT INFO
+
+
+DESC="tw websocket server"
+TPIDFILE=/var/run/twsock.pid
+TWHOME=/home/tiddlyweb/tiddlywebs/tiddlyspace.com
+TWSOCK=/home/cdent/src/tiddlyspacesockets/server/twsock_server
+TWARGS=""
+
+set -e
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+        start-stop-daemon --start --quiet --chdir $TWHOME --exec "$TWSOCK"
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	start-stop-daemon --stop --quiet --oknodo --pidfile $TPIDFILE
+	echo "$NAME."
+	rm -f $TPIDFILE
+	;;
+
+  restart|force-reload)
+	#
+	#	If the "reload" option is implemented, move the "force-reload"
+	#	option to the "reload" entry above. If not, "force-reload" is
+	#	just the same as "restart".
+	#
+	echo -n "Restarting $DESC: "
+	start-stop-daemon --stop --quiet --oknodo --pidfile $TPIDFILE
+	rm -f $TPIDFILE
+	sleep 1
+        start-stop-daemon --start --quiet --chdir $TWHOME --exec "$TWSOCK"
+	echo "$NAME."
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	# echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
