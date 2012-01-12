@@ -28,7 +28,6 @@ var addListeners = function(c) {
 };
 
 io.sockets.on("connection", function(socket){
-    console.log('got connection', socket);
     socket.join('*');
     socket.on('subscribe', function(data) {
         socket.join(data);
@@ -50,7 +49,7 @@ var deleteJob = function(job) {
 
 var resJob = function() {
     bsClient.reserve().onSuccess(function(job) {
-        console.log('reserved', job);
+        console.log('reserved', job.id);
 
         var tiddler = JSON.parse(job.data);
         ['modifier', 'creator', 'tags'].forEach(function(attribute) {
