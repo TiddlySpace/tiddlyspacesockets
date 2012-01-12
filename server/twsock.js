@@ -4,11 +4,28 @@
  * from npm.
  */
 
-var io = require('socket.io').listen(8081),
-    bs = require('nodestalker');
-var bsClient = bs.Client();
+var beanstalkRetries = 0;
 
-var TUBE = 'socketuri';
+var io = require('socket.io').listen(8081),
+    bs = require('nodestalker'),
+    bsClient = bs.Client(),
+    TUBE = 'socketuri';
+
+var addListeners = function(c) {
+    c.addListener('error', function(err) {
+        console.log('beanstalk error', err);
+    });
+    c.addListener('end', function(err) {
+        console.log('beanstalk end', err);
+    });
+    c.addListener('close', function(err) {
+        console.log('beanstalk close', err);
+        console.log('will retry');
+        bsClient = bs.Client();
+        addListeners(bsClient);
+        doMain();
+    });
+};
 
 io.sockets.on("connection", function(socket){
     console.log('got connection', socket);
@@ -26,8 +43,7 @@ io.sockets.on("connection", function(socket){
 
 var deleteJob = function(job) {
     bsClient.deleteJob(job.id).onSuccess(function(del_msg) {
-        console.log('deleted', job);
-        console.log('message', del_msg);
+        console.log('delmessage', job.id, del_msg);
         resJob();
     });
 };
@@ -55,9 +71,13 @@ var resJob = function() {
     });
 };
 
-bsClient.watch(TUBE).onSuccess(function(data) {
-    bsClient.ignore('default').onSuccess(function(data) {;
-        console.log('ignoring');
-        resJob();
+var doMain = function() {
+    bsClient.watch(TUBE).onSuccess(function(data) {
+        bsClient.ignore('default').onSuccess(function(data) {
+            resJob();
+        });
     });
-});
+};
+
+addListeners(bsClient);
+doMain();
