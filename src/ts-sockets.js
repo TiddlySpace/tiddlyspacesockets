@@ -21,7 +21,7 @@ var itemtemplate = ['<li class="activity-item next">',
 	'<div>',
 		'<p>',
 			'<a href="{{modifier_url}}">{{modifier}}</a> {{action}} ',
-			'<a class="tiddler-title" href="{{tiddler_url}}">{{tiddler_title}}</a>',
+			'<a class="tiddler-title" href="{{tiddler_url}}" title="{{tiddler_title}}">{{tiddler_title_short}}</a>',
 		'</p>',
 		'<p class="date" data-timestamp="{{timestamp}}">{{friendly_date}}</p>',
 	'</div>',
@@ -78,7 +78,12 @@ function init(status) {
 			return "is writing about";
 		}
 	};
-
+	var shorten = function(str) {
+		if(str.length > 30) {
+			str = str.substr(0, 14) + "..." + str.substr(-14, str.length);
+		}
+		return str;
+	};
 	var toMustacheData = function(tiddler) {
 		var modifier_base = getUrl(status, tiddler.modifier);
 		var origin_space = tiddler.bag.split("_");
@@ -96,6 +101,7 @@ function init(status) {
 				modifier_url: modifier_base,
 				modifier_siteicon: modifier_base + "SiteIcon",
 				tiddler_title: tiddler.title,
+				tiddler_title_short: shorten(tiddler.title),
 				tiddler_url: origin_base + encodeURIComponent(tiddler.title)
 			};
 		} else { // ignore things that are not associated with spaces
