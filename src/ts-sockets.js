@@ -27,6 +27,29 @@ var itemtemplate = ['<li class="activity-item next">',
 	'</div>',
 '</li>'].join("");
 
+(function testCSSTransformsSupport() {
+	
+	var div = document.createElement('div'),
+		divStyle = div.style,
+		prop = "Transform",
+		vendorified = [
+			"O" + prop,
+			"ms" + prop,
+			"Moz" + prop,
+			"Webkit" + prop
+			],
+		len = vendorified.length;
+		
+	for ( i = 0; i < len; i++ ) {
+		if ( vendorified[i] in divStyle ) {
+			$('body').addClass("transforms");
+			break;
+		}
+	}
+	
+})();
+
+
 function getUrl(status, space) {
 	var host = status.server_host;
 	var url = host.scheme + "://" + space + "." + host.host;
