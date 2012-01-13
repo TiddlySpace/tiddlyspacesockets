@@ -50,13 +50,13 @@ var itemtemplate = ['<li class="activity-item next">',
 })();
 
 
-function getUrl(status, space) {
+function getUrl(status, space, bag) {
 	var host = status.server_host;
-	var url = host.scheme + "://" + space + "." + host.host;
+	var url = space ? host.scheme + "://" + space + "." + host.host : host.scheme + "://" + host.host;
 	if(host.port) {
 		url += ":" + host.port;
 	}
-	return url + "/";
+	return bag ? url + "/bags/" + bag + "/tiddlers" : url;
 }
 
 function prettyDate(t) {
@@ -91,7 +91,7 @@ function init(status) {
 		if(isPlumbing || ignoreType) {
 			return false;
 		} else if(isPlugin) {
-			action = "shared a plugin called";
+			return "shared a plugin called";
 		} else if(isCode) {
 			return "shared a javascript file called ";
 		} else if(isImage) {
@@ -111,26 +111,27 @@ function init(status) {
 	var toMustacheData = function(tiddler) {
 		var modifier_base = getUrl(status, tiddler.modifier);
 		var origin_space = tiddler.bag.split("_");
-		if(origin_space.length > 1) {
-			var origin_base = getUrl(status, origin_space[0]);
-			var action = getVerb(tiddler);
-			if(!action) {
-				return false;
-			}
-			return {
-				action: action,
-				timestamp: tiddler.modified,
-				friendly_date: prettyDate(tiddler.modified),
-				modifier: tiddler.modifier,
-				modifier_url: modifier_base,
-				modifier_siteicon: modifier_base + "SiteIcon",
-				tiddler_title: tiddler.title,
-				tiddler_title_short: shorten(tiddler.title),
-				tiddler_url: origin_base + encodeURIComponent(tiddler.title)
-			};
-		} else { // ignore things that are not associated with spaces
+		var origin_base;
+		if(origin_space.length > 1 && ["public", "private"].indexOf(origin_space[1]) > -1) {
+			origin_base = getUrl(status, origin_space[0], tiddler.bag);
+		} else {
+			origin_base = getUrl(status, null, tiddler.bag);
+		}
+		var action = getVerb(tiddler);
+		if(!action) {
 			return false;
 		}
+		return {
+			action: action,
+			timestamp: tiddler.modified,
+			friendly_date: prettyDate(tiddler.modified),
+			modifier: tiddler.modifier,
+			modifier_url: modifier_base,
+			modifier_siteicon: modifier_base + "/SiteIcon",
+			tiddler_title: tiddler.title,
+			tiddler_title_short: shorten(tiddler.title),
+			tiddler_url: origin_base + "/" + encodeURIComponent(tiddler.title)
+		};
 	};
 
 	socket.emit("subscribe", "*");
