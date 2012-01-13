@@ -6,6 +6,9 @@ var PLUMBING = ["Footer", "Header", "AdvancedOptions", "ColorPalette", "DefaultT
 "SystemSettings","TabAll","TabMore","TabMoreMissing","TabMoreOrphans","TabMoreShadowed",
 "TabTags","TabTimeline","ToolbarCommands","ViewTemplate","WindowTitle"];
 
+var CORE_BAGS = ["tiddlyspace", "system", "system-images_public",
+	"system-plugins_public", "system-info_public", "system-theme_public", "common"];
+
 // override control view
 $.ajaxSetup({
 	beforeSend: function(xhr) {
@@ -112,6 +115,9 @@ function init(status) {
 		var modifier_base = getUrl(status, tiddler.modifier);
 		var origin_space = tiddler.bag.split("_");
 		var origin_base;
+		if(CORE_BAGS.indexOf(tiddler.bag) > -1) {
+			return false;
+		}
 		if(origin_space.length > 1 && ["public", "private"].indexOf(origin_space[1]) > -1) {
 			origin_base = getUrl(status, origin_space[0], tiddler.bag);
 		} else {
