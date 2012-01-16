@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+//#!/usr/local/bin/node
 /*
  * Needs websocket-server and (eventually) nodestalker, available
  * from npm.
@@ -50,19 +50,27 @@ var deleteJob = function(job) {
     });
 };
 
+var attributes = [
+    'modifier',
+    'creator',
+    'tags',
+    'bag',
+    'recipe'
+];
+
 var resJob = function() {
     bsClient.reserve().onSuccess(function(job) {
         console.log('reserved', job.id);
 
         var tiddler = JSON.parse(job.data);
-        ['modifier', 'creator', 'tags'].forEach(function(attribute) {
+        attributes.forEach(function(attribute) {
             var value = tiddler[attribute];
             if (Array.isArray(value)) {
                 value.forEach(function(item) {
                     io.sockets.in(attribute + '/' + item)
                         .emit('tiddler', tiddler.fields._uri);
                 });
-            } else {
+            } else if (typeof value !== 'undefined') {
                 io.sockets.in(attribute + '/' + value)
                         .emit('tiddler', tiddler.fields._uri);
             }
