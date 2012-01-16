@@ -1,6 +1,6 @@
 #!/usr/local/bin/node
-/* 
- * Needs websocket-server and (eventually) nodestalker, available 
+/*
+ * Needs websocket-server and (eventually) nodestalker, available
  * from npm.
  */
 
@@ -12,7 +12,7 @@ var io = require('socket.io').listen(8081),
 
 var console = new SysLogger();
 
-io.set('log level', 1); 
+io.set('log level', 1);
 
 var addListeners = function(c) {
     c.addListener('error', function(err) {
