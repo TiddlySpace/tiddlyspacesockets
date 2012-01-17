@@ -8,5 +8,4 @@ NODE_BIN=/usr/local/bin/node
 set -e
 
 echo "(re-)starting twsock.js" | logger -p syslog.info -t twsock
-sudo -u $USER $NODE_BIN $DAEMON &
-echo $! > /var/run/twsock.pid
+sudo -u $USER $NODE_BIN $DAEMON | logger -p syslog.info -t twsock
