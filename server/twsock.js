@@ -53,8 +53,7 @@ var attributes = [
     'modifier',
     'creator',
     'tags',
-    'bag',
-    'recipe'
+    'bag'
 ];
 
 var resJob = function() {
