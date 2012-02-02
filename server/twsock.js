@@ -3,11 +3,16 @@
  * from npm.
  */
 
+process.title = 'twsock';
+
 var io = require('socket.io').listen(8081),
     bs = require('nodestalker'),
     bsClient = bs.Client(),
     TUBE = 'socketuri';
 
+io.enable('browser client minification');
+io.enable('browser client etag');
+io.enable('browser client gzip');
 io.set('log level', 1);
 
 var addListeners = function(c) {
