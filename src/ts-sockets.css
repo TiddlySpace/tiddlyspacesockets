@@ -79,8 +79,10 @@ li.first {
 
 .activity-item img {
 	border-radius: 4px;
-	height: 5.5em;
-	width: 5.5em;
+	max-height: 5.5em;
+	max-width: 5.5em;
+	_height: 5.5em;
+	_width: 5.5em;
 	position: absolute;
 	top: 1.25em; left: 1.25em;
 }
