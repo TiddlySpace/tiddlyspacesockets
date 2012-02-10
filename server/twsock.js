@@ -32,7 +32,6 @@ var addListeners = function(c) {
 };
 
 io.sockets.on("connection", function(socket){
-    socket.join('*');
     socket.on('subscribe', function(data) {
         socket.join(data);
         if (data !== '*') {
