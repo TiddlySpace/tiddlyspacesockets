@@ -9,6 +9,7 @@ var container = $('<div id="realtime-widget" />').css({
 	width: "100%",
 	"border-top": "solid 2px black"
 }).appendTo(document.body)[0];
+$(document.body).addClass( 'activityOn' );
 
 var height = 100;
 
@@ -21,7 +22,9 @@ $(widget).css({
 });
 
 $('<button>real time</button>').click(function(ev) {
-	$(widget).toggle();
+	$(widget).toggle(function() {
+		$(document.body).toggleClass('activityOn');
+	});
 }).css({
 	position: "absolute", right: "10px", bottom: "0px",
 	"background": "none",
@@ -36,5 +39,4 @@ $('<button>real time</button>').click(function(ev) {
 	"background-image": "url(http://following.tiddlyspace.com/SiteIcon)"
 }).appendTo(container);
 
-$(document.body).css({ "padding-bottom": height + 8 });
 })(jQuery);
