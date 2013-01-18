@@ -5,6 +5,11 @@
 	<base target="_blank">
 	<link rel="stylesheet" type="text/css" href="reset.css">
 	<link rel="stylesheet" type="text/css" href="ts-sockets.css">
+
+	<!--[if lt IE 9]>
+	<script src="/bags/common/tiddlers/es5-shim.min.js"></script>
+	<![endif]-->
+
 </head>
 <body>
 	<div id="realtime">
@@ -27,11 +32,11 @@
 			</li>
 		</ul>
 	</div>
-	<script type="text/javascript" src="jquery.js"></script>
-	<script type="text/javascript" src="mockajax.js"></script>
-	<script type="text/javascript" src="simpledate.js"></script>
+	<script src="jquery.js"></script>
+	<script src="mockajax.js"></script>
+	<script src="simpledate.js"></script>
 	<script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="mustache.js"></script>
-	<script type="text/javascript" src="ts-sockets.js"></script>
+	<script src="mustache.js"></script>
+	<script src="ts-sockets.js"></script>
 </body>
 </html>
