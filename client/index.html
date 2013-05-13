@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>real time tiddlyspace</title>
+	<base target="_blank">
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css" href="ts-sockets.css">
+
+	<!--[if lt IE 9]>
+	<script src="/bags/common/tiddlers/es5-shim.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+	<div id="realtime">
+		<ul class="activity-stream">
+			<li class="empty activity-item first">
+				<span><img src="http://tiddlyspace.com/SiteIcon"></span>
+				<div></div>
+			</li>
+			<li class="empty activity-item middle">
+				<span><img src="http://tiddlyspace.com/SiteIcon"></span>
+				<div></div>
+			</li>
+			<li class="empty activity-item last">
+				<span><img src="http://tiddlyspace.com/SiteIcon"></span>
+				<div></div>
+			</li>
+			<li class="empty activity-item past">
+				<span><img src="http://tiddlyspace.com/SiteIcon"></span>
+				<div></div>
+			</li>
+		</ul>
+	</div>
+	<script src="/bags/common/tiddlers/jquery.js"></script>
+	<script src="simpledate.js"></script>
+	<script src="http://localhost:8081/socket.io/socket.io.js"></script>
+	<script src="mustache.js"></script>
+	<script src="ts-sockets.js"></script>
+</body>
+</html>
