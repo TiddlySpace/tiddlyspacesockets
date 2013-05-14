@@ -31,18 +31,17 @@ In order to try out the server side code effectively, you will want to run a loc
 This is covered [elsewhere](http://tiddlyweb.tiddlyspace.com/Hosting%20Your%20Own%20TiddlySpace).  Additional steps
 beyond this are:
 
-1. Install the dispatcher plugin:
+1. Install the dispatcher plugins:
 
-    `pip install -U tiddlywebplugins.dispatcher`
+    pip install -U tiddlywebplugins.dispatcher
+    pip install -U tiddlywebplugins.jsondispatcher
 
-2. Copy `listener.py` from the `dispatcher` folder to the TiddlySpace instance directory.
-
-3. In tiddlywebconfig.py add the following:
+2. In tiddlywebconfig.py add the following:
 
    'use_dispatcher': True,
-   'beanstalk.listeners': ['listener'],
+   'beanstalk.listeners': ['tiddlywebplugins.jsondispatcher'],
 
-4. In one terminal run `twanager server` and in another run `twanager dispatcher`
+3. In one terminal run `twanager server` and in another run `twanager dispatcher`
 
 ### Running the Example Client
 
