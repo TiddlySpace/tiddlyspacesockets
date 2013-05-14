@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TiddlySpace/tiddlyspacesockets.png)](https://travis-ci.org/TiddlySpace/tiddlyspacesockets)
+
 # twsock
 
 A node application using [socket.io](http://socket.io/) to update browsers with Tiddler activity on TiddlyWeb/Space
