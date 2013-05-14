@@ -2,10 +2,9 @@
 
 USER=tiddlyweb
 NODE_PATH=/usr/local/lib/node
-DAEMON=/home/cdent/src/tiddlyspacesockets/server/twsock.js
-NODE_BIN=/usr/local/bin/node
+DAEMON=twsock
 
 set -e
 
 echo "(re-)starting twsock.js" | logger -p syslog.info -t twsock
-sudo -u $USER $NODE_BIN $DAEMON | logger -p syslog.info -t twsock
+sudo -u $USER $DAEMON | logger -p syslog.info -t twsock
