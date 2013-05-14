@@ -1,7 +1,8 @@
-/*global module:false*/
+/*global module:false, require:false*/
 module.exports = function (grunt) {
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON("package.json"),
         jshint: {
             options: {
                 bitwise: true,
@@ -54,4 +55,18 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-curl");
 
     grunt.registerTask("default", ["curl", "jshint"]);
+
+    grunt.registerTask("package", "package up twsock into an executable node application", function() {
+
+        var shell = require("shelljs");
+        shell.exec("npm pack");
+    });
+
+    grunt.registerTask("install", "install twsock as a node application, available globally", function() {
+
+        var shell = require("shelljs");
+        var version = grunt.config.get("pkg").version;
+
+        shell.exec("npm install twsock-" + version + ".tgz");
+    });
 };

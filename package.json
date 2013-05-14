@@ -2,7 +2,6 @@
   "name": "twsock",
   "version": "0.1.0",
   "description": "Realtime tiddler updates for TiddlySpace",
-  "main": "twsock.js",
   "scripts": {
     "test": "grunt test"
   },
@@ -25,6 +24,10 @@
     "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.4.3",
     "grunt-curl": "~1.0.0",
-    "grunt-contrib-clean": "~0.4.1"
+    "grunt-contrib-clean": "~0.4.1",
+    "shelljs": "~0.1.4"
+  },
+  "bin": {
+    "twsock": "./server/twsock.js"
   }
 }

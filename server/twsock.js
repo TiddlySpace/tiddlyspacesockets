@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*global process:false, require:false, console:false*/
 process.title = "twsock";
 
