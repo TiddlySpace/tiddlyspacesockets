@@ -67,6 +67,6 @@ module.exports = function (grunt) {
         var shell = require("shelljs");
         var version = grunt.config.get("pkg").version;
 
-        shell.exec("npm install twsock-" + version + ".tgz");
+        shell.exec("npm install -g twsock-" + version + ".tgz");
     });
 };
