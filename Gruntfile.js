@@ -44,7 +44,7 @@ module.exports = function (grunt) {
         curl: {
             "client/assets/simpledate.js":
                 "https://raw.github.com/gist/1010595/bd741574e760b170e5cb246ac5cac95bed33b0a3/simpledate.js",
-            "client/assets/reset.css": "http://meyerweb.com/eric/tools/css/reset/reset.css",
+            "client/assets/reset.css": "http://tiddlyspace.com/bags/common/tiddlers/reset.css",
             "client/assets/jquery.js": "http://tiddlyspace.com/bags/common/tiddlers/jquery.js",
             "client/assets/mustache.js": "https://raw.github.com/janl/mustache.js/master/mustache.js"
         }
