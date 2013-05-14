@@ -46,16 +46,21 @@ beyond this are:
 
 ### Running the Example Client
 
-The example client expects an instance of TiddlySpace running against localhost on port 8080.  If you are not running
-the server side code, you can change this to point to tiddlyspace.com by commenting out (#) the `target_server` line in
-the `client/.tsapp` file.
-
-Run the following:
+The example client expects an instance of TiddlySpace running against localhost on port 8080.  Run the following:
 
     grunt curl
     cd client && tsapp serve
 
 Then navigate to `http://localhost:8082/index.html`
+
+#### Using tiddlyspace.com
+
+If you are not running the server side code, you can change this to point to tiddlyspace.com by commenting out (#) the
+`target_server` line in the `client/.tsapp` file.
+
+Also replace `localhost` with `tiddlyspace.com` in `client/index`:
+
+    <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
 
 ## Packaging and Installation
 
