@@ -9,47 +9,50 @@
 # Description:		twsock - Real time socket.io of tiddlers
 ### END INIT INFO
 
-
 DESC="tw websocket server"
-TPIDFILE=/var/run/twsock.pid
-TWHOME=/home/tiddlyweb/tiddlywebs/tiddlyspace.com
-TWSOCK=/home/cdent/src/tiddlyspacesockets/server/twsock_server
-TWARGS=""
-
-set -e
+PID_FILE=/var/run/twsock.pid
+TW_USER=tiddlyweb
+USER_EXEC="su - $TW_USER -c"
+NODE_ENV=production
+NODE_APP=twsock
+LOGGER="logger -p syslog.info -t twsock"
 
 case "$1" in
-  start)
-	echo -n "Starting $DESC: "
-        start-stop-daemon --start --quiet --chdir $TWHOME --exec "$TWSOCK"
-	echo "$NAME."
-	;;
-  stop)
-	echo -n "Stopping $DESC: "
-	start-stop-daemon --stop --quiet --oknodo --pidfile $TPIDFILE
-	echo "$NAME."
-	rm -f $TPIDFILE
-	;;
-
-  restart|force-reload)
-	#
-	#	If the "reload" option is implemented, move the "force-reload"
-	#	option to the "reload" entry above. If not, "force-reload" is
-	#	just the same as "restart".
-	#
-	echo -n "Restarting $DESC: "
-	start-stop-daemon --stop --quiet --oknodo --pidfile $TPIDFILE
-	rm -f $TPIDFILE
-	sleep 1
-        start-stop-daemon --start --quiet --chdir $TWHOME --exec "$TWSOCK"
-	echo "$NAME."
-	;;
-  *)
-	N=/etc/init.d/$NAME
-	# echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
-	echo "Usage: $N {start|stop|restart|force-reload}" >&2
-	exit 1
-	;;
+    start)
+        if [ -f $PID_FILE ]
+        then
+            echo "$PID_FILE exists, process is already running or crashed"
+        else
+            echo "Starting $NODE_APP..."
+            { NODE_ENV=$NODE_ENV $USER_EXEC $NODE_APP & echo $! > $PID_FILE; } | $LOGGER &
+            echo "$NODE_APP started"
+        fi
+        ;;
+	stop)
+        if [ ! -f $PID_FILE ]
+        then
+            echo "$PID_FILE does not exist, process is not running"
+        else
+            echo "Stopping $NODE_APP ..."
+            kill `cat $PID_FILE`
+            rm $PID_FILE
+            echo "$NODE_APP stopped"
+        fi
+        ;;
+    restart)
+        if [ ! -f $PID_FILE ]
+        then
+            echo "$PID_FILE does not exist, process is not running"
+        else
+            echo "Restarting $NODE_APP ..."
+            kill `cat $PID_FILE`
+            rm $PID_FILE
+            sleep 1
+            { NODE_ENV=$NODE_ENV $USER_EXEC $NODE_APP & echo $! > $PID_FILE; } | $LOGGER &
+            echo "$NODE_APP restarted"
+        fi
+        ;;
+    *)
+    echo "Usage: /etc/init.d/$NODE_APP {start|stop|restart}"
+    ;;
 esac
-
-exit 0

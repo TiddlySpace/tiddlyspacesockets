@@ -1,0 +1,7 @@
+Copy twsock to /etc/init.d
+
+Run as follows:
+
+(sudo) /etc/init.d/twsock start
+
+If this script is set to start up automatically upon boot then it must start after beanstalkd
