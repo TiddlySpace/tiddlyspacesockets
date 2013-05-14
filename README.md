@@ -54,3 +54,15 @@ Run the following:
     cd client && tsapp serve
 
 Then navigate to `http://localhost:8082/index.html`
+
+## Packaging and Installation
+
+Run:
+
+    grunt package
+
+This produces a gzipped tarball that can be installed as follows:
+
+    grunt install
+
+This installs twsock as a global application.  It will be available in the path to run as `twsock`.
