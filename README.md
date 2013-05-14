@@ -62,6 +62,10 @@ Also replace `localhost` with `tiddlyspace.com` in `client/index`:
 
     <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
 
+And this line in `client/ts-sockets.js`:
+
+    var socket = io.connect("http://localhost:8081");
+
 ## Packaging and Installation
 
 Run:
