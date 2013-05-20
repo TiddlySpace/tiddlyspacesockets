@@ -59,7 +59,7 @@ If you are not running the server side code, you can change this to point to tid
 
 Also replace `localhost` with `tiddlyspace.com` in `client/index`:
 
-    <script src="http://tiddlyspace.com:8081/socket.io/socket.io.js"></script>
+    <script src="http://localhost:8081/socket.io/socket.io.js"></script>
 
 And this line in `client/ts-sockets.js`:
 
