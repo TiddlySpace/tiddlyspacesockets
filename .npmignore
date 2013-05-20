@@ -1,0 +1,10 @@
+node_modules
+client
+scripts
+test
+.npmignore
+.gitignore
+Gruntfile.js
+listener.py
+.idea
+*.tgz
