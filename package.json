@@ -1,0 +1,37 @@
+{
+  "name": "twsock",
+  "version": "0.1.0",
+  "description": "Realtime tiddler updates for TiddlyWeb and TiddlySpace",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TiddlySpace/tiddlyspacesockets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TiddlySpace/tiddlyspacesockets/issues"
+  },
+  "keywords": [
+    "tiddlyspace",
+    "tiddlyweb",
+    "twsock"
+  ],
+  "author": "Osmosoft",
+  "license": "BSD",
+  "readmeFilename": "README",
+  "dependencies": {
+    "socket.io": "~0.9.14",
+    "nodestalker": "~0.1.8"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-curl": "~1.0.0",
+    "grunt-contrib-clean": "~0.4.1",
+    "shelljs": "~0.1.4"
+  },
+  "bin": {
+    "twsock": "./server/twsock.js"
+  }
+}

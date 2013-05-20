@@ -1,0 +1,58 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:		twsock
+# Should-Start:		$local_fs
+# Should-Stop:		$local_fs
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	twsock - Real time socket.io of tiddlers
+# Description:		twsock - Real time socket.io of tiddlers
+### END INIT INFO
+
+DESC="tw websocket server"
+PID_FILE=/var/run/twsock.pid
+TW_USER=tiddlyweb
+USER_EXEC="su - $TW_USER -c"
+NODE_ENV=production
+NODE_APP=twsock
+LOGGER="logger -p syslog.info -t twsock"
+
+case "$1" in
+    start)
+        if [ -f $PID_FILE ]
+        then
+            echo "$PID_FILE exists, process is already running or crashed"
+        else
+            echo "Starting $NODE_APP..."
+            { NODE_ENV=$NODE_ENV $USER_EXEC $NODE_APP & echo $! > $PID_FILE; } | $LOGGER &
+            echo "$NODE_APP started"
+        fi
+        ;;
+	stop)
+        if [ ! -f $PID_FILE ]
+        then
+            echo "$PID_FILE does not exist, process is not running"
+        else
+            echo "Stopping $NODE_APP ..."
+            kill `cat $PID_FILE`
+            rm $PID_FILE
+            echo "$NODE_APP stopped"
+        fi
+        ;;
+    restart)
+        if [ ! -f $PID_FILE ]
+        then
+            echo "$PID_FILE does not exist, process is not running"
+        else
+            echo "Restarting $NODE_APP ..."
+            kill `cat $PID_FILE`
+            rm $PID_FILE
+            sleep 1
+            { NODE_ENV=$NODE_ENV $USER_EXEC $NODE_APP & echo $! > $PID_FILE; } | $LOGGER &
+            echo "$NODE_APP restarted"
+        fi
+        ;;
+    *)
+    echo "Usage: /etc/init.d/$NODE_APP {start|stop|restart}"
+    ;;
+esac
