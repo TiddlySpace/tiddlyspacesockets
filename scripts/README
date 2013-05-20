@@ -1,3 +1,6 @@
+Running as a Service
+--------------------
+
 Copy twsock to /etc/init.d
 
 Run as follows:
@@ -5,3 +8,8 @@ Run as follows:
 (sudo) /etc/init.d/twsock start
 
 If this script is set to start up automatically upon boot then it must start after beanstalkd
+
+Running under Supervisor
+------------------------
+
+Copy supervisor/twsock.conf to /etc/supervisor/conf.d and reload supervisor
