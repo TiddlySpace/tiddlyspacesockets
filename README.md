@@ -57,11 +57,11 @@ Then navigate to `http://localhost:8082/index.html`
 If you are not running the server side code, you can change this to point to tiddlyspace.com by commenting out (#) the
 `target_server` line in the `client/.tsapp` file.
 
-Also replace `localhost` with `tiddlyspace.com` in `client/index`:
+Also replace `localhost` with `tiddlyspace.com` in `client/index.html`:
 
     <script src="http://localhost:8081/socket.io/socket.io.js"></script>
 
-And this line in `client/ts-sockets.js`:
+And this line in `client/assets/ts-sockets.js`:
 
     var socket = io.connect("http://localhost:8081");
 
