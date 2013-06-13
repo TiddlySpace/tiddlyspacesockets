@@ -59,14 +59,22 @@ var itemtemplate = ["<li class='activity-item next'>",
 
 })();
 
+// turn a long tiddler uri into a friendly
+function friendlyURI(mainHost, uri) {
+	if (!uri.match('\/\/' + mainHost)) {
+		return uri.replace(/\/bags\/[^\/]+\/tiddlers/, '');
+	} else {
+		return uri;
+	}
+}
 
-function getUrl(status, space, bag) {
+function getSpaceUrl(status, space) {
 	var host = status.server_host;
 	var url = space ? host.scheme + "://" + space + "." + host.host : host.scheme + "://" + host.host;
 	if(host.port) {
 		url += ":" + host.port;
 	}
-	return bag ? url + "/bags/" + bag + "/tiddlers" : url;
+	return url;
 }
 
 function prettyDate(t) {
@@ -118,16 +126,16 @@ function init(status) {
 		return str;
 	};
 	var toMustacheData = function(tiddler) {
-		var modifier_base = getUrl(status, tiddler.modifier);
+		var modifier_base = getSpaceUrl(status, tiddler.modifier);
 		var origin_space = tiddler.bag.split("_");
-		var origin_base;
+		var tiddler_url;
 		if(CORE_BAGS.indexOf(tiddler.bag) > -1) {
 			return false;
 		}
 		if(origin_space.length > 1 && ["public", "private"].indexOf(origin_space[1]) > -1) {
-			origin_base = getUrl(status, origin_space[0], tiddler.bag);
+			tiddler_url = friendlyURI(status.server_host.host, tiddler.uri);
 		} else {
-			origin_base = getUrl(status, null, tiddler.bag);
+			tiddler_url = tiddler.uri;
 		}
 		var action = getVerb(tiddler);
 		if(!action) {
@@ -142,7 +150,7 @@ function init(status) {
 			modifier_siteicon: modifier_base + "/SiteIcon",
 			tiddler_title: tiddler.title,
 			tiddler_title_short: shorten(tiddler.title),
-			tiddler_url: origin_base + "/" + encodeURIComponent(tiddler.title)
+			tiddler_url: tiddler_url
 		};
 	};
 
