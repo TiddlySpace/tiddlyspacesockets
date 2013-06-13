@@ -67,6 +67,8 @@ And this line in `client/assets/ts-sockets.js`:
 
 ## Packaging and Installation
 
+### Server-side Component
+
 Run:
 
     grunt package
@@ -76,3 +78,16 @@ This produces a gzipped tarball that can be installed as follows:
     grunt install
 
 This installs twsock as a global application.  It will be available in the path to run as `twsock`.
+
+### Client-side Component
+
+Make sure `localhost` references are replaced with the target server
+(e.g. tiddlyspace.com).  Also make sure `target_server` is set correctly 
+in `.tsapp`.  Then (from the `client` directory) run:
+    
+    tsapp push <space>_public
+
+Replace `<space>` with the target space where the client-side code will
+live.  Remember, you cannot push to tiddlyspace without prior authentication.  If you have not done so already:
+
+    tsapp auth
