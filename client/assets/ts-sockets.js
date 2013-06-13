@@ -1,15 +1,20 @@
 /*global $:false, Mustache:false, io:false, simpleDate:false*/
 /*jshint camelcase:false*/
 var PLUMBING = [
-    "Footer", "Header", "AdvancedOptions", "ColorPalette", "DefaultTiddlers","EditTemplate", "FollowTiddlersBlackList",
-    "FollowTiddlersHeading", "FollowTiddlersTemplate", "FollowersTemplate", "FollowingTemplate", "GettingStarted",
-    "ImportTiddlers", "MainMenu", "MarkupPostBody", "MarkupPostHead", "MarkupPreBody", "MarkupPreHead", "OptionsPanel",
-    "PageTemplate", "PluginManager", "ScanTemplate", "SearchTemplate", "SideBarOptions", "SideBarTabs", "SiteSubtitle",
-    "SiteTitle", "SiteIcon", "ServerSettings", "HtmlJavascript", "HtmlCss", "SiteUrl", "StyleSheet", "StyleSheetColors",
-    "StyleSheetDiffFormatter", "StyleSheetFollowing", "StyleSheetImageMacro",  "StyleSheetLayout", "StyleSheetLocale",
-    "StyleSheetPrint","StyleSheetSearch","StyleSheetTiddlySpaceBackstage", "SystemSettings","TabAll","TabMore",
-    "TabMoreMissing","TabMoreOrphans","TabMoreShadowed", "TabTags","TabTimeline","ToolbarCommands","ViewTemplate",
-    "WindowTitle"
+    "Footer", "Header", "AdvancedOptions", "ColorPalette", "DefaultTiddlers",
+	"EditTemplate", "FollowTiddlersBlackList", "FollowTiddlersHeading",
+	"FollowTiddlersTemplate", "FollowersTemplate", "FollowingTemplate",
+	"GettingStarted", "ImportTiddlers", "MainMenu", "MarkupPostBody",
+	"MarkupPostHead", "MarkupPreBody", "MarkupPreHead", "OptionsPanel",
+    "PageTemplate", "PluginManager", "ScanTemplate", "SearchTemplate",
+	"SideBarOptions", "SideBarTabs", "SiteSubtitle", "SiteTitle", "SiteIcon",
+	"ServerSettings", "HtmlJavascript", "HtmlCss", "SiteUrl", "StyleSheet",
+	"StyleSheetColors", "StyleSheetDiffFormatter", "StyleSheetFollowing",
+	"StyleSheetImageMacro",  "StyleSheetLayout", "StyleSheetLocale",
+	"StyleSheetPrint", "StyleSheetSearch", "StyleSheetTiddlySpaceBackstage",
+	"SystemSettings", "TabAll", "TabMore", "TabMoreMissing", "TabMoreOrphans",
+	"TabMoreShadowed", "TabTags", "TabTimeline", "ToolbarCommands",
+	"ViewTemplate", "WindowTitle"
 ];
 
 var CORE_BAGS = ["tiddlyspace", "system", "system-images_public",
@@ -34,12 +39,12 @@ var itemtemplate = ["<li class='activity-item next'>",
 		"</p>",
 		"<p class='date' data-timestamp='{{timestamp}}'>{{friendly_date}}</p>",
 	"</div>",
-"</li>"].join("");
+	"</li>"].join("");
 
 (function testCSSTransformsSupport() {
 
-    var i;
-	var div = document.createElement("div"),
+    var i,
+		div = document.createElement("div"),
 		divStyle = div.style,
 		prop = "Transform",
 		vendorified = [
@@ -50,8 +55,8 @@ var itemtemplate = ["<li class='activity-item next'>",
         ],
 		len = vendorified.length;
 
-	for ( i = 0; i < len; i++ ) {
-		if ( vendorified[i] in divStyle ) {
+	for (i = 0; i < len; i++) {
+		if (vendorified[i] in divStyle) {
 			$("body").addClass("transforms");
 			break;
 		}
@@ -61,16 +66,18 @@ var itemtemplate = ["<li class='activity-item next'>",
 
 // turn a long tiddler uri into a friendly
 function friendlyURI(mainHost, uri) {
-	if (!uri.match('\/\/' + mainHost)) {
-		return uri.replace(/\/bags\/[^\/]+\/tiddlers/, '');
+	if (!uri.match("\/\/" + mainHost)) {
+		return uri.replace(/\/bags\/[^\/]+\/tiddlers/, "");
 	} else {
 		return uri;
 	}
 }
 
 function getSpaceUrl(status, space) {
-	var host = status.server_host;
-	var url = space ? host.scheme + "://" + space + "." + host.host : host.scheme + "://" + host.host;
+	var host = status.server_host,
+		url = space ?
+			host.scheme + "://" + space + "." + host.host :
+			host.scheme + "://" + host.host;
 	if(host.port) {
 		url += ":" + host.port;
 	}
@@ -92,19 +99,21 @@ function prettyDate(t) {
 
 var el = $("#realtime")[0] || document.body;
 function init(status) {
-	var activity_queue = [];
-	var socket = io.connect("http://localhost:8081");
-	var container = $(".activity-stream");
+	var activity_queue = [],
+		socket = io.connect("http://localhost:8081"),
+		container = $(".activity-stream");
 
-	var getVerb = function(tiddler) {
-		var isPlugin = tiddler.tags.indexOf("systemConfig") > -1;
-		var isImage = tiddler.type && tiddler.type.indexOf("image/") === 0;
-		var isCode = tiddler.type && tiddler.type === "text/javascript";
-		var isBookmark = !!tiddler.fields.url;
-		var title = tiddler.title;
-		var isPlumbing = PLUMBING.indexOf(title) > -1 || title.match(/SetupFlag$/) || title.match(/^z[A-Z]/);
-		var ignoreType = tiddler.type &&
-			(["text/html", "text/css"].indexOf(tiddler.type) > -1 || tiddler.type.indexOf("application/") === 0);
+	function getVerb(tiddler) {
+		var isPlugin = tiddler.tags.indexOf("systemConfig") > -1,
+			isImage = tiddler.type && tiddler.type.indexOf("image/") === 0,
+			isCode = tiddler.type && tiddler.type === "text/javascript",
+			isBookmark = !!tiddler.fields.url,
+			title = tiddler.title,
+			isPlumbing = PLUMBING.indexOf(title) > -1 ||
+				title.match(/SetupFlag$/) || title.match(/^z[A-Z]/),
+			ignoreType = tiddler.type &&
+				(["text/html", "text/css"].indexOf(tiddler.type) > -1 ||
+				tiddler.type.indexOf("application/") === 0);
 		if(isPlumbing || ignoreType) {
 			return false;
 		} else if(isPlugin) {
@@ -118,29 +127,38 @@ function init(status) {
 		} else {
 			return "is writing about";
 		}
-	};
-	var shorten = function(str) {
+	}
+
+	function shorten(str) {
 		if(str.length > 30) {
 			str = str.substr(0, 14) + "..." + str.substr(-14, str.length);
 		}
 		return str;
-	};
-	var toMustacheData = function(tiddler) {
-		var modifier_base = getSpaceUrl(status, tiddler.modifier);
-		var origin_space = tiddler.bag.split("_");
-		var tiddler_url;
+	}
+
+	function toMustacheData(tiddler) {
+		var modifier_base = getSpaceUrl(status, tiddler.modifier),
+			origin_space = tiddler.bag.split("_"),
+			tiddler_url,
+			action = false;
+
 		if(CORE_BAGS.indexOf(tiddler.bag) > -1) {
 			return false;
 		}
-		if(origin_space.length > 1 && ["public", "private"].indexOf(origin_space[1]) > -1) {
+
+		if (origin_space.length > 1 &&
+				["public", "private"].indexOf(origin_space[1]) > -1) {
 			tiddler_url = friendlyURI(status.server_host.host, tiddler.uri);
 		} else {
 			tiddler_url = tiddler.uri;
 		}
-		var action = getVerb(tiddler);
-		if(!action) {
+
+		action = getVerb(tiddler);
+
+		if (!action) {
 			return false;
 		}
+
 		return {
 			action: action,
 			timestamp: tiddler.modified,
@@ -152,39 +170,34 @@ function init(status) {
 			tiddler_title_short: shorten(tiddler.title),
 			tiddler_url: tiddler_url
 		};
-	};
+	}
 
-	socket.emit("subscribe", "*");
-	socket.on("tiddler", function(data) {
-		var url = data;
-		activity_queue.push(url);
-		updateUI();
-	});
+	// rotate the scene
+	function transitionUI() {
+		var jf = $(".first"),
+			jm = $(".middle"),
+			jl = $(".last"),
+			jn = $(".next");
 
-	var addTiddlerToUI = function(tiddler) {
-		var transitionUI = function() {
-			var jf = $(".first"),
-				jm = $(".middle"),
-				jl = $(".last"),
-				jn = $(".next");
+		jl.removeClass("last").addClass("past");
+		jm.removeClass("middle").addClass("last");
+		jf.removeClass("first").addClass("middle");
+		jn.removeClass("next").addClass("first");
+	}
 
-			jl.removeClass("last").addClass("past");
-			jm.removeClass("middle").addClass("last");
-			jf.removeClass("first").addClass("middle");
-			jn.removeClass("next").addClass("first");
-		};
+	function addTiddlerToUI(tiddler) {
 		var data = toMustacheData(tiddler);
+
 		if(data) {
-			var html = Mustache.to_html(itemtemplate, data);
-			container.prepend(html);
+			container.prepend(Mustache.to_html(itemtemplate, data));
 			$("#realtime .date").each(function(i, el) {
 				$(el).text(prettyDate($(el).attr("data-timestamp")));
 			});
 			transitionUI();
 		}
-	};
+	}
 
-	var updateUI = function() {
+	function updateUI() {
 		if(activity_queue.length > 0) {
 			// get value off queue
 			var url = activity_queue.pop();
@@ -197,13 +210,20 @@ function init(status) {
 				}
 			});
 		}
-	};
+	}
+
+	socket.emit("subscribe", "*");
+	socket.on("tiddler", function(data) {
+		var url = data;
+		activity_queue.push(url);
+		updateUI();
+	});
 
 	$.ajax({
 		dataType: "json",
 		url: "/search?q=_limit:20;sort=modified",
 		success: function(tiddlers) {
-			for(var i = 0; i < tiddlers.length; i++) {
+			for (var i = 0; i < tiddlers.length; i++) {
 				addTiddlerToUI(tiddlers[i]);
 			}
 		}
