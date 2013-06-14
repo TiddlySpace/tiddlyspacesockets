@@ -19,7 +19,7 @@
   ],
   "author": "Osmosoft",
   "licenses" : [{
-    "type" : "MyLicense",
+    "type" : "BSD New",
     "url" : "http://github.com/tiddlyspace/tiddlyspacesockets/LICENSE"
   }],
   "readmeFilename": "README",
