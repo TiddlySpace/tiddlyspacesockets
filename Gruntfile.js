@@ -60,9 +60,11 @@ module.exports = function (grunt) {
         var shell = require("shelljs");
         var config = grunt.config.get("wget");
 
-        for(key in config) {
-            var value = config[key];
-            shell.exec("wget " + value + " -O " + key);
+        for(var key in config) {
+            if(config.hasOwnProperty(key)) {
+                var value = config[key];
+                shell.exec("wget " + value + " -O " + key);
+            }
         }
     });
 
