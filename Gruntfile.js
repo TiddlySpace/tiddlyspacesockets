@@ -42,7 +42,7 @@ module.exports = function (grunt) {
             "client/assets/mustache.js", "client/assets/simpledate.js", "client/assets/reset.css",
             "client/assets/jquery.js", "client/assets/mustache.js"
         ],
-        curl: {
+        wget: {
             "client/assets/simpledate.js":
                 "https://raw.github.com/gist/1010595/bd741574e760b170e5cb246ac5cac95bed33b0a3/simpledate.js",
             "client/assets/reset.css": "http://tiddlyspace.com/bags/common/tiddlers/reset.css",
@@ -52,9 +52,19 @@ module.exports = function (grunt) {
     });
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-curl");
 
-    grunt.registerTask("default", ["curl", "jshint"]);
+    grunt.registerTask("default", ["wget", "jshint"]);
+
+    grunt.registerTask("wget", "Download external resources", function() {
+
+        var shell = require("shelljs");
+        var config = grunt.config.get("wget");
+
+        for(key in config) {
+            var value = config[key];
+            shell.exec("wget " + value + " -O " + key);
+        }
+    });
 
     grunt.registerTask("package", "package up twsock into an executable node application", function() {
 
