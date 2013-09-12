@@ -3,7 +3,8 @@
 /*global process:false, require:false, console:false*/
 process.title = "twsock";
 
-var io = require("socket.io").listen(8081),
+var io1 = require("socket.io").listen(8080),
+    io2 = require("socket.io").listen(8081),
     bs = require("nodestalker"),
     bsClient = bs.Client(),
     TUBE = "socketuri";
@@ -15,12 +16,16 @@ var attributes = [
     "bag"
 ];
 
-io.enable("browser client minification");
-io.enable("browser client etag");
-io.enable("browser client gzip");
-io.set("log level", 1);
+io1.enable("browser client minification");
+io1.enable("browser client etag");
+io1.enable("browser client gzip");
+io1.set("log level", 1);
+io2.enable("browser client minification");
+io2.enable("browser client etag");
+io2.enable("browser client gzip");
+io2.set("log level", 1);
 
-io.sockets.on("connection", function(socket){
+var onConnection = function(socket) {
     socket.on("subscribe", function(data) {
         socket.join(data);
         if (data !== "*") {
@@ -30,7 +35,10 @@ io.sockets.on("connection", function(socket){
     socket.on("unsubscribe", function(data) {
         socket.leave(data);
     });
-});
+};
+
+io1.sockets.on("connection", onConnection);
+io2.sockets.on("connection", onConnection);
 
 var resJob = function(deleteJobFunction) {
     bsClient.reserve().onSuccess(function(job) {
@@ -41,13 +49,16 @@ var resJob = function(deleteJobFunction) {
             var value = tiddler[attribute];
             if (Array.isArray(value)) {
                 value.forEach(function(item) {
-                    io.sockets.in(attribute + "/" + item).emit("tiddler", tiddler.fields._uri);
+                    io1.sockets.in(attribute + "/" + item).emit("tiddler", tiddler.fields._uri);
+                    io2.sockets.in(attribute + "/" + item).emit("tiddler", tiddler.fields._uri);
                 });
             } else if (typeof value !== "undefined") {
-                io.sockets.in(attribute + "/" + value).emit("tiddler", tiddler.fields._uri);
+                io1.sockets.in(attribute + "/" + value).emit("tiddler", tiddler.fields._uri);
+                io2.sockets.in(attribute + "/" + value).emit("tiddler", tiddler.fields._uri);
             }
         });
-        io.sockets.in("*").emit("tiddler", tiddler.fields._uri);
+        io1.sockets.in("*").emit("tiddler", tiddler.fields._uri);
+        io2.sockets.in("*").emit("tiddler", tiddler.fields._uri);
         deleteJobFunction(job);
     });
 };

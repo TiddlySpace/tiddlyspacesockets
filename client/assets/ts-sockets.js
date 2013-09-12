@@ -100,7 +100,7 @@ function prettyDate(t) {
 var el = $("#realtime")[0] || document.body;
 function init(status) {
 	var activity_queue = [],
-		socket = io.connect("http://localhost:8081"),
+		socket = io.connect("http://localhost:8080"),
 		container = $(".activity-stream");
 
 	function getVerb(tiddler) {

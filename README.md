@@ -23,7 +23,8 @@ The node application listens for incoming data from beanstalkd, so this should b
 
     node server/twsock.js
 
-This will be running on localhost, port 8081.
+This will be running on localhost, ports 8080 and 8081.
+This is because some deployments of TiddlySpace cannot listen on port 8081 but 8080 is usually open.
 
 ### Running TiddlySpace
 
@@ -45,7 +46,7 @@ beyond this are:
 
 ### Running the Example Client
 
-The example client expects an instance of TiddlySpace running against localhost on port 8080.  Run the following:
+The example client expects an instance of TiddlySpace running against localhost on port 8000.  Run the following:
 
     grunt curl
     cd client && tsapp serve
@@ -59,11 +60,11 @@ If you are not running the server side code, you can change this to point to tid
 
 Also replace `localhost` with `tiddlyspace.com` in `client/index.html`:
 
-    <script src="http://localhost:8081/socket.io/socket.io.js"></script>
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
 
 And this line in `client/assets/ts-sockets.js`:
 
-    var socket = io.connect("http://localhost:8081");
+    var socket = io.connect("http://localhost:8080");
 
 ## Packaging and Installation
 
